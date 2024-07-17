@@ -9,23 +9,19 @@ import { ProgressComponent } from './progress/progress.component';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 
-
 @NgModule({
   declarations: [
     DashboardComponent,
     ProgressComponent,
     Grafica1Component,
-    PagesComponent
+    PagesComponent,
   ],
-  imports: [
-    CommonModule,
-    AppRoutingModule,
-    SharedModule
-  ], exports:[
+  imports: [CommonModule, AppRoutingModule, SharedModule],
+  exports: [
     DashboardComponent,
     ProgressComponent,
     Grafica1Component,
-    PagesComponent
-  ]
+    PagesComponent,
+  ],
 })
-export class PagesModule { }
+export class PagesModule {}
