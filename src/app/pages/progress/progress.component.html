@@ -6,10 +6,11 @@
         <div class="progress m-t-20">
           <div
             class="progress-bar bg-primary progress-bar-striped active"
-            style="width: 85%; height: 10px"
+            style="height: 10px"
+            [style.width]="porcentaje"
             role="progressbar"
           >
-            <span class="sr-only">85% Complete (success)</span>
+
           </div>
         </div>
       </div>
@@ -23,11 +24,11 @@
       <div class="card-body">
         <div class="input-group">
           <span class="input-group-btn">
-            <button class="btn btn-primary" type="button"><i class="fa fa-minus"></i></button>
+            <button class="btn btn-primary" type="button" (click)="cambiarValor(-5)"><i class="fa fa-minus"></i></button>
           </span>
-          <input type="text" class="form-control" placeholder="Product name" />
+          <input type="number" class="form-control" placeholder="Progreso" [(ngModel)]="progress"/>
           <span class="input-group-btn">
-            <button class="btn btn-primary" type="button"><i class="fa fa-plus"></i></button>
+            <button class="btn btn-primary" type="button" (click)="cambiarValor(5)"><i class="fa fa-plus"></i></button>
           </span>
         </div>
       </div>
