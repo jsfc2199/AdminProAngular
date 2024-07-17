@@ -36,7 +36,7 @@
     <div class="card">
       <div class="card-body">
 
-        <app-incrementador></app-incrementador>
+        <app-incrementador [progress]="50"></app-incrementador>
 
       </div>
     </div>
@@ -44,7 +44,9 @@
 
   <div class="col-6">
     <div class="card">
-      <div class="card-body">2</div>
+      <div class="card-body">
+        <app-incrementador [progress]="25"></app-incrementador>
+      </div>
     </div>
   </div>
 </div>
