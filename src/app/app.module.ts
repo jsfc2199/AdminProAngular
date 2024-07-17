@@ -10,6 +10,8 @@ import { NoPageFoundComponent } from './pages/no-page-found/no-page-found.compon
 import { SidebarComponent } from './shared/sidebar/sidebar.component';
 import { HeaderComponent } from './shared/header/header.component';
 import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component';
+import { ProgressComponent } from './pages/progress/progress.component';
+import { Grafica1Component } from './pages/grafica1/grafica1.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { BreadcrumbsComponent } from './shared/breadcrumbs/breadcrumbs.component
     NoPageFoundComponent,
     SidebarComponent,
     HeaderComponent,
-    BreadcrumbsComponent
+    BreadcrumbsComponent,
+    ProgressComponent,
+    Grafica1Component
   ],
   imports: [
     BrowserModule,
