@@ -22,3 +22,13 @@ Esta sección esta enfocada en módulos principalmente:
 - Comenzaremos a crear módulos para agrupar tareas específicas
 - Realizar cambios en GitHub
 - Crear Release Tags que nos permitan descargar el código fácilmente, en caso de que necesitemos volver a comenzar donde nos quedemos.
+
+## Comunicación entre componentes input/output
+Esta sección esta dedicada a los componentes y el envío de información entre ellos.
+
+- Trabajaremos con Outputs, Inputs y ViewChild
+- Aprenderemos como utilizar atributos personalizados
+- Crearemos un componente re utilizable con una funcionalidad en especifico
+- Aprenderemos a tener referencias a elementos HTML
+- Tips de JavaScript puro: colocar el foco en elementos
+- Uso de gráficas como componentes personalizados
