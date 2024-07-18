@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { filter, interval, map, Observable, retry, take } from 'rxjs';
+import { filter, interval, map, Observable, retry, Subscription, take } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs',
@@ -7,6 +7,7 @@ import { filter, interval, map, Observable, retry, take } from 'rxjs';
   styleUrl: './rxjs.component.css',
 })
 export class RxjsComponent {
+  subs: Subscription = new Subscription()
   //creando un observable de manera manual
   constructor() {
     // this.retornaObservable()
@@ -20,7 +21,7 @@ export class RxjsComponent {
     //     complete: () => console.log('completado'),
     //   });
 
-    this.retornaIntervalo().pipe(
+    this.subs = this.retornaIntervalo().pipe(
       map(valor => valor +1), //transforma la información del intervalo
       filter(valor => (valor % 2 === 0) )
     ).subscribe((valor) => {
@@ -31,7 +32,7 @@ export class RxjsComponent {
   retornaIntervalo(){
     const interval$ = interval(500)
     .pipe(
-      take(10) //solo tomamos 4 emisiones
+      // take(10) //solo tomamos 4 emisiones
     )
     return interval$
   }
@@ -56,5 +57,9 @@ export class RxjsComponent {
     });
 
     return obs$;
+  }
+
+  ngOnDestroy(): void {
+    this.subs.unsubscribe()    
   }
 }
