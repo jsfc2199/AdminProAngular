@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { interval, map, Observable, retry, take } from 'rxjs';
+import { filter, interval, map, Observable, retry, take } from 'rxjs';
 
 @Component({
   selector: 'app-rxjs',
@@ -21,16 +21,17 @@ export class RxjsComponent {
     //   });
 
     this.retornaIntervalo().pipe(
-      map(valor => valor * 2) //transforma la información del intervalo
+      map(valor => valor +1), //transforma la información del intervalo
+      filter(valor => (valor % 2 === 0) )
     ).subscribe((valor) => {
       console.log(valor)
     })
   }
 
   retornaIntervalo(){
-    const interval$ = interval(1000)
+    const interval$ = interval(500)
     .pipe(
-      take(4) //solo tomamos 4 emisiones
+      take(10) //solo tomamos 4 emisiones
     )
     return interval$
   }
