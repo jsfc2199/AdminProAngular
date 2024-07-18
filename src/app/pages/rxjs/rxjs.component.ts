@@ -32,7 +32,7 @@ export class RxjsComponent {
   retornaIntervalo(){
     const interval$ = interval(500)
     .pipe(
-      // take(10) //solo tomamos 4 emisiones
+      take(10) //solo tomamos 4 emisiones
     )
     return interval$
   }
