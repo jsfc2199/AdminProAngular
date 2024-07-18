@@ -1,16 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { SettingsService } from '../services/settings.service';
 
 @Component({
   selector: 'app-pages',
   templateUrl: './pages.component.html',
 })
 export class PagesComponent {
-//obtenemos el elemento del index <link href="assets/css/colors/default-dark.css" id="theme" rel="stylesheet">
-linkTheme = document.querySelector('#theme')
-  ngOnInit(): void {
+  private settingsService = inject(SettingsService);
 
-    const url = localStorage.getItem('theme') || 'assets/css/colors/default-dark.css'
-    this.linkTheme?.setAttribute('href', url)
-
-  }
+  ngOnInit(): void {}
 }
