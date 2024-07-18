@@ -10,6 +10,7 @@ import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
+import { BaseChartDirective } from 'ng2-charts';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,7 @@ import { ComponentsModule } from '../components/components.module';
     Grafica1Component,
     PagesComponent,
   ],
-  imports: [CommonModule, AppRoutingModule, SharedModule, FormsModule, ComponentsModule],
+  imports: [CommonModule, AppRoutingModule, SharedModule, FormsModule, ComponentsModule, BaseChartDirective],
   exports: [
     DashboardComponent,
     ProgressComponent,
