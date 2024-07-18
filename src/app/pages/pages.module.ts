@@ -11,6 +11,7 @@ import { AppRoutingModule } from '../app-routing.module';
 import { FormsModule } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 import { BaseChartDirective } from 'ng2-charts';
+import { AccountSettingsComponent } from './account-settings/account-settings.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { BaseChartDirective } from 'ng2-charts';
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
+    AccountSettingsComponent,
   ],
   imports: [CommonModule, AppRoutingModule, SharedModule, FormsModule, ComponentsModule, BaseChartDirective],
   exports: [
@@ -25,6 +27,7 @@ import { BaseChartDirective } from 'ng2-charts';
     ProgressComponent,
     Grafica1Component,
     PagesComponent,
+    AccountSettingsComponent,
   ],
 })
 export class PagesModule {}
