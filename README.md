@@ -56,3 +56,16 @@ Esta sección esta dedicada a los componentes y el envío de información entre 
 - Usaremos observables para leer parámetros de configuración de las rutas que son diferentes a los parámetros de las rutas por url
 - Cambiaremos los metatags dependiendo de la página donde nos encontremos
 - Cambiar el titulo de la página actual
+
+## Sección 14 Implementar login y registro de usuarios
+Dado que ya se cuenta con el backend en node podemos continuar
+
+Esta sección tiene por objetivo implementar la seguridad de nuestra aplicación:
+
+- Conectar el Front-end con el Back-end (login)
+- Usar Sweet Alert para mostrar mensajes
+- Login normal de usuario
+- Login de Google
+- LocalStorage para almacenar tokens
+- Protección básica de rutas
+- Logout
