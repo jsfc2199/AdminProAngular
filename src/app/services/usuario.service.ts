@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { RegisterForm } from '../auth/interfaces/register-form.interface';
 import { environments } from '../../environments/environment';
+import { LoginForm } from '../auth/interfaces/login-form.interface';
 
 const baseUrl = environments.base_url
 
@@ -14,5 +15,9 @@ export class UsuarioService {
 
   crearUsuario(formData: RegisterForm){
     return this.http.post(`${baseUrl}/usuarios`, formData)
+  }
+
+  login(formData: LoginForm){
+    return this.http.post(`${baseUrl}/login`, formData)
   }
 }
