@@ -14,6 +14,7 @@ export class LoginComponent {
 
   private fb: FormBuilder                = inject(FormBuilder)
   private usuarioService: UsuarioService = inject(UsuarioService)
+  private router: Router                 = inject(Router)
 
   public formSubmitted = false;
   @ViewChild('googleBtn') googleBtn!: ElementRef
@@ -33,7 +34,7 @@ export class LoginComponent {
     google.accounts.id.initialize({
       client_id:
         "780420120770-9nljp36bfii6d70hkvp6tepol8v18t72.apps.googleusercontent.com",
-      callback: this.handleCredentialResponse,
+      callback: (response:any) =>  this.handleCredentialResponse(response), //lo modificamos porque haremos uso al this para hacer referencia al componente
     });
     google.accounts.id.renderButton(
       this.googleBtn.nativeElement,
@@ -42,7 +43,10 @@ export class LoginComponent {
   }
 
   handleCredentialResponse(response: any) {
-    console.log("Encoded JWT ID token: " + response.credential); //obtenemos el token de google
+    this.usuarioService.loginGoogle(response.credential)
+    .subscribe(resp => {
+      this.router.navigateByUrl('/')
+    })
 
   }
 
@@ -61,4 +65,6 @@ export class LoginComponent {
       }
     })
   }
+
+
 }
