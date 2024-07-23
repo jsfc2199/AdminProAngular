@@ -18,7 +18,7 @@ export class UsuarioService {
   private http: HttpClient = inject(HttpClient)
   private router: Router = inject(Router)
 
-  public usuario!: User
+  public usuario?: User
 
   crearUsuario(formData: RegisterForm){
     return this.http.post(`${baseUrl}/usuarios`, formData)
@@ -33,7 +33,6 @@ export class UsuarioService {
     return this.http.post(`${baseUrl}/login`, formData)
     .pipe(
       tap((resp: any) => {
-        localStorage.setItem('email', resp.email)
         localStorage.setItem('token', resp.token)
       })
     )
@@ -67,8 +66,9 @@ export class UsuarioService {
           nombre,
           role,
           uuid
-        } = resp.usuario
+        } = resp.userDb
         this.usuario = new User(nombre,email, '',role, google, img, uuid)
+        
         localStorage.setItem('token', resp.token)
       }),
       map(resp => true), //luego de renovar retornamos true para el guardian
