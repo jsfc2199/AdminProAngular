@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -29,8 +30,12 @@ export class RegisterComponent {
     this.formSubmitted = true;
 
     this.usuarioService.crearUsuario(this.registerForm.value)
-    .subscribe(resp => {
-      console.log(resp)
+    .subscribe({
+      next: resp => console.log(resp),
+      complete: () => console.log('complete'),
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error')
+      }
     })
   }
 
