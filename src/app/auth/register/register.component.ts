@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UsuarioService } from '../../services/usuario.service';
 
 @Component({
   selector: 'app-register',
@@ -9,21 +10,28 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 export class RegisterComponent {
 
   private fb: FormBuilder = inject(FormBuilder)
+  private usuarioService: UsuarioService = inject(UsuarioService)
+
   public formSubmitted = false;
 
   public registerForm = this.fb.group({
-    name: ['', [Validators.required, Validators.minLength(3)]],
-    email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required]],
-    password2: ['', [Validators.required]],
-    terms: [false, [Validators.required]],
+    nombre: ['juan', [Validators.required, Validators.minLength(3)]],
+    email: ['test100@test100', [Validators.required, Validators.email]],
+    password: ['123456', [Validators.required]],
+    password2: ['123456', [Validators.required]],
+    terms: [true, [Validators.requiredTrue]],
   },{
     validators: this.samePasswords('password', 'password2') //validadores personalizados
   })
 
   crearUsuario(){
+    if(this.registerForm.invalid) return
     this.formSubmitted = true;
-    console.log(this.registerForm.value)
+
+    this.usuarioService.crearUsuario(this.registerForm.value)
+    .subscribe(resp => {
+      console.log(resp)
+    })
   }
 
   notValidField(campo: string): boolean {
