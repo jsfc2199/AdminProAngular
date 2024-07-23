@@ -1,9 +1,10 @@
-import { Component, inject } from '@angular/core';
+import { Component, ElementRef, inject, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { UsuarioService } from '../../services/usuario.service';
 import Swal from 'sweetalert2';
 
+declare const google: any
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
@@ -11,11 +12,11 @@ import Swal from 'sweetalert2';
 })
 export class LoginComponent {
 
-  private router: Router                 = inject(Router)
   private fb: FormBuilder                = inject(FormBuilder)
   private usuarioService: UsuarioService = inject(UsuarioService)
 
   public formSubmitted = false;
+  @ViewChild('googleBtn') googleBtn!: ElementRef
 
   public signInForm: FormGroup = this.fb.group({
     email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
@@ -23,6 +24,28 @@ export class LoginComponent {
     remember: [false],
 
   })
+
+  ngAfterViewInit(): void {
+    this.googleInit()
+  }
+
+  googleInit(){
+    google.accounts.id.initialize({
+      client_id:
+        "780420120770-9nljp36bfii6d70hkvp6tepol8v18t72.apps.googleusercontent.com",
+      callback: this.handleCredentialResponse,
+    });
+    google.accounts.id.renderButton(
+      this.googleBtn.nativeElement,
+      { theme: "outline", size: "large" } // customization attributes
+    );
+  }
+
+  handleCredentialResponse(response: any) {
+    console.log("Encoded JWT ID token: " + response.credential); //obtenemos el token de google
+
+  }
+
   login(){
     this.usuarioService.login(this.signInForm.value)
     .subscribe({
