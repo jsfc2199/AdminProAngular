@@ -4,8 +4,10 @@ import { RegisterForm } from '../auth/interfaces/register-form.interface';
 import { environments } from '../../environments/environment';
 import { LoginForm } from '../auth/interfaces/login-form.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
+import { Router } from '@angular/router';
 
 const baseUrl = environments.base_url
+declare const google: any
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +15,7 @@ const baseUrl = environments.base_url
 export class UsuarioService {
 
   private http: HttpClient = inject(HttpClient)
+  private router: Router = inject(Router)
 
   crearUsuario(formData: RegisterForm){
     return this.http.post(`${baseUrl}/usuarios`, formData)
@@ -27,6 +30,7 @@ export class UsuarioService {
     return this.http.post(`${baseUrl}/login`, formData)
     .pipe(
       tap((resp: any) => {
+        localStorage.setItem('email', resp.email)
         localStorage.setItem('token', resp.token)
       })
     )
@@ -36,6 +40,7 @@ export class UsuarioService {
     return this.http.post(`${baseUrl}/login/google`, {token})
     .pipe(
       tap((resp: any) => {
+        localStorage.setItem('email', resp.email)
         localStorage.setItem('token', resp.token)
       })
     )
@@ -58,5 +63,15 @@ export class UsuarioService {
       catchError(error => of(false))
     )
 
+  }
+
+  logout(){
+    const email = localStorage.getItem('email')
+    localStorage.removeItem('token')
+    localStorage.removeItem('email')
+ 
+    google.accounts.id.revoke(email, () =>{
+      this.router.navigateByUrl('/login')
+    })
   }
 }
