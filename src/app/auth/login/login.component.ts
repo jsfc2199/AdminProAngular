@@ -18,19 +18,24 @@ export class LoginComponent {
   public formSubmitted = false;
 
   public signInForm: FormGroup = this.fb.group({
-    email: ['test100@test100', [Validators.required, Validators.email]],
-    password: ['123456', [Validators.required]],
+    email: [localStorage.getItem('email') || '', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
     remember: [false],
 
   })
   login(){
     this.usuarioService.login(this.signInForm.value)
     .subscribe({
-      next: (resp) => console.log(resp),
+      next: (resp) => {
+        if(this.signInForm.get('remember')?.value){
+          localStorage.setItem('email', this.signInForm.get('email')?.value)
+        }else{
+          localStorage.removeItem('email')
+        }
+      },
       error: (err) => {
         Swal.fire('Error', err.error.msg, 'error')
       }
     })
-   
   }
 }
