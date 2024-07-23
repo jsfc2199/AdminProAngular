@@ -5,6 +5,7 @@ import { environments } from '../../environments/environment';
 import { LoginForm } from '../auth/interfaces/login-form.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
+import { User } from '../models/users.model';
 
 const baseUrl = environments.base_url
 declare const google: any
@@ -16,6 +17,8 @@ export class UsuarioService {
 
   private http: HttpClient = inject(HttpClient)
   private router: Router = inject(Router)
+
+  public usuario!: User
 
   crearUsuario(formData: RegisterForm){
     return this.http.post(`${baseUrl}/usuarios`, formData)
@@ -48,8 +51,7 @@ export class UsuarioService {
 
   //Con esto aprovechamos y actualizamos el token nuevamente
   validarToken(): Observable<boolean>{
-    const token = localStorage.getItem('token') || ''
-
+    const token = localStorage.getItem('token') ?? ''
     return this.http.get(`${baseUrl}/login/renew`, {
       headers:{
         'x-token': token
@@ -57,6 +59,16 @@ export class UsuarioService {
     }).pipe(
       //renovamos el token
       tap((resp: any) => {
+        //centralizamos la información del usuario
+        const {
+          email,
+          google,
+          img,
+          nombre,
+          role,
+          uuid
+        } = resp.usuario
+        this.usuario = new User(nombre,email, '',role, google, img, uuid)
         localStorage.setItem('token', resp.token)
       }),
       map(resp => true), //luego de renovar retornamos true para el guardian
@@ -69,7 +81,7 @@ export class UsuarioService {
     const email = localStorage.getItem('email')
     localStorage.removeItem('token')
     localStorage.removeItem('email')
- 
+
     google.accounts.id.revoke(email, () =>{
       this.router.navigateByUrl('/login')
     })
