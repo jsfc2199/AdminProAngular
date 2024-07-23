@@ -60,6 +60,7 @@ export class LoginComponent {
           localStorage.removeItem('email')
         }
       },
+      complete: () => this.router.navigateByUrl('/'),
       error: (err) => {
         Swal.fire('Error', err.error.msg, 'error')
       }

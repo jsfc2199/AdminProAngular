@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { RegisterForm } from '../auth/interfaces/register-form.interface';
 import { environments } from '../../environments/environment';
 import { LoginForm } from '../auth/interfaces/login-form.interface';
-import { tap } from 'rxjs';
+import { catchError, map, Observable, of, tap } from 'rxjs';
 
 const baseUrl = environments.base_url
 
@@ -39,5 +39,24 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token)
       })
     )
+  }
+
+  //Con esto aprovechamos y actualizamos el token nuevamente
+  validarToken(): Observable<boolean>{
+    const token = localStorage.getItem('token') || ''
+
+    return this.http.get(`${baseUrl}/login/renew`, {
+      headers:{
+        'x-token': token
+      }
+    }).pipe(
+      //renovamos el token
+      tap((resp: any) => {
+        localStorage.setItem('token', resp.token)
+      }),
+      map(resp => true), //luego de renovar retornamos true para el guardian
+      catchError(error => of(false))
+    )
+
   }
 }
