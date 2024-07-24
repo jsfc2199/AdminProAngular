@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
 import { User } from '../../../models/users.model';
+import { BusquedasService } from '../../../services/busquedas.service';
+import { debounceTime, Subject, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-usuarios',
@@ -8,6 +10,8 @@ import { User } from '../../../models/users.model';
 })
 export class UsuariosComponent {
   private usuarioService: UsuarioService = inject(UsuarioService);
+  private busquedaService: BusquedasService = inject(BusquedasService);
+  private searchTerms = new Subject<string>();
 
   public totalUsuarios: number = 0;
   public usuarios: User[] = [];
@@ -16,6 +20,13 @@ export class UsuariosComponent {
 
   ngOnInit(): void {
     this.cargarUsuarios();
+
+    this.searchTerms.pipe(
+      debounceTime(300),
+      switchMap((termino: string) => this.busquedaService.buscar('usuarios',termino))
+    ).subscribe(resp => {
+      this.usuarios = resp
+    })
   }
 
   cargarUsuarios() {
@@ -37,5 +48,10 @@ export class UsuariosComponent {
       this.desde -= valor;
     }
     this.cargarUsuarios();
+  }
+
+  search(termino: string){  
+    if(termino === '') return  
+    this.searchTerms.next(termino)   
   }
 }
