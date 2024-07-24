@@ -14,6 +14,7 @@ import { BaseChartDirective } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
 import { PromesasComponent } from './promesas/promesas.component';
 import { RxjsComponent } from './rxjs/rxjs.component';
+import { ProfileComponent } from './profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { RxjsComponent } from './rxjs/rxjs.component';
     AccountSettingsComponent,
     PromesasComponent,
     RxjsComponent,
+    ProfileComponent,
   ],
   imports: [CommonModule, AppRoutingModule, SharedModule, FormsModule, ComponentsModule, BaseChartDirective],
   exports: [
