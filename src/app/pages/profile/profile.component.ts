@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { UsuarioService } from '../../services/usuario.service';
 import { User } from '../../models/users.model';
 import { FileUploadService } from '../../services/file-upload.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -35,11 +36,19 @@ export class ProfileComponent {
 
   actualizarPerfil(){
     this.usuarioService.actualizarPerfil(this.profileForm.value)
-    .subscribe(res=> {
-      const {nombre, email} = this.profileForm.value
-      this.usuario.nombre = nombre
-      this.usuario.email = email
+    .subscribe({
+      next: res => {
+        const {nombre, email} = this.profileForm.value
+        this.usuario.nombre = nombre
+        this.usuario.email = email
+
+        Swal.fire('Saved','Changes saved', 'success')
+      },
+      error: (err) => {
+        Swal.fire('Error', err.error.msg, 'error')
+      }
     })
+
 
   }
 
@@ -71,7 +80,12 @@ export class ProfileComponent {
 
   subirImagen(){
     this.fileUploadService.actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uuid!)
-    .then(img => this.usuario.img = img)
+    .then(img => {
+      this.usuario.img = img
+      Swal.fire('Saved','Picture saved', 'success')
+    }).catch(err => {
+      Swal.fire('Error', 'Picture can not be uploaded', 'error')
+    })
   }
 
 }
