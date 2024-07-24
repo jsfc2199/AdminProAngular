@@ -12,17 +12,20 @@ export class UsuariosComponent {
   public totalUsuarios: number = 0;
   public usuarios: User[] = [];
   public desde: number = 0;
+  public loading: boolean = false
 
   ngOnInit(): void {
     this.cargarUsuarios();
   }
 
   cargarUsuarios() {
+    this.loading = true
     this.usuarioService
       .cargarUsuarios(this.desde)
       .subscribe(({ total, usuarios }) => {
         this.usuarios = usuarios;
         this.totalUsuarios = total;
+        this.loading = false
       });
   }
 
