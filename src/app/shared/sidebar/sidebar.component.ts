@@ -3,6 +3,7 @@ import { SidebarService } from '../../services/sidebar.service';
 import { Menu } from '../../interface/menu.interface';
 import { UsuarioService } from '../../services/usuario.service';
 import { User } from '../../models/users.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
@@ -13,6 +14,7 @@ export class SidebarComponent {
 
   private sidebarService = inject(SidebarService)
   private usuarioService: UsuarioService = inject(UsuarioService)
+  private router: Router = inject(Router)
   public usuario!: User
 
   menuItems: Menu[]= []
@@ -24,5 +26,6 @@ export class SidebarComponent {
 
    logout(){
     this.usuarioService.logout()
+    this.router.navigateByUrl('/login')
    }
 }

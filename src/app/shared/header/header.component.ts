@@ -12,6 +12,7 @@ export class HeaderComponent {
 
   private usuarioService: UsuarioService = inject(UsuarioService)
   public usuario!: User
+  private router: Router = inject(Router)
 
   constructor(){
     this.usuario = this.usuarioService.usuario!
@@ -19,6 +20,7 @@ export class HeaderComponent {
 
   logout(){
     this.usuarioService.logout()
+    this.router.navigateByUrl('/login')
   }
 
 }

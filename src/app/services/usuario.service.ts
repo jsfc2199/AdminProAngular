@@ -57,21 +57,23 @@ export class UsuarioService {
       }
     }).pipe(
       //renovamos el token
-      tap((resp: any) => {
+      //se remueve el tap porque puede ser que se resuelva el map primero que el tap, por lo que se maneja directamente en el map
+      map((resp: any) => {
         //centralizamos la información del usuario
         const {
           email,
           google,
-          img,
+          img='',//por si el usuario no tiene imagen, no se rompa la app
           nombre,
           role,
           uuid
         } = resp.userDb
         this.usuario = new User(nombre,email, '',role, google, img, uuid)
-        
+
         localStorage.setItem('token', resp.token)
+        return true
       }),
-      map(resp => true), //luego de renovar retornamos true para el guardian
+       //luego de renovar retornamos true para el guardian
       catchError(error => of(false))
     )
 
@@ -82,8 +84,7 @@ export class UsuarioService {
     localStorage.removeItem('token')
     localStorage.removeItem('email')
 
-    google.accounts.id.revoke(email, () =>{
-      this.router.navigateByUrl('/login')
-    })
+    google.accounts.id.revoke(email, () =>{})
+
   }
 }
