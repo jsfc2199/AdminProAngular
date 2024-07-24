@@ -51,13 +51,14 @@
         <h6 class="card-subtitle">user Img</h6>
 
         <img src="" alt="">
-        <input type="file">
+        <input type="file" (change)="cambiarImagen($event)">
         <br>
         <br>
 
-        <button
+        <button [disabled]="!imagenSubir"
         type="button"
         class="btn btn-block btn-success waves-effect waves-light m-r-10"
+        (click)="subirImagen()"
       >
         Change Image
       </button>
