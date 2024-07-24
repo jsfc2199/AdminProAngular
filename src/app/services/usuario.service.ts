@@ -20,6 +20,14 @@ export class UsuarioService {
 
   public usuario?: User
 
+  get token(){
+    return localStorage.getItem('token') ?? ''
+  }
+
+  get uuid(){
+    return this.usuario?.uuid ?? ''
+  }
+
   crearUsuario(formData: RegisterForm){
     return this.http.post(`${baseUrl}/usuarios`, formData)
     .pipe(
@@ -27,6 +35,18 @@ export class UsuarioService {
         localStorage.setItem('token', resp.token)
       })
     )
+  }
+
+  actualizarPerfil(data: {email: string, nombre: string, role: string | undefined}){
+    data = {
+      ...data,
+      role: this.usuario!.role
+    }
+    return this.http.put(`${baseUrl}/usuarios/${this.uuid}`, data, {
+      headers:{
+        'x-token': this.token
+      }
+    })
   }
 
   login(formData: LoginForm){
@@ -50,10 +70,10 @@ export class UsuarioService {
 
   //Con esto aprovechamos y actualizamos el token nuevamente
   validarToken(): Observable<boolean>{
-    const token = localStorage.getItem('token') ?? ''
+    // const token = localStorage.getItem('token') ?? ''
     return this.http.get(`${baseUrl}/login/renew`, {
       headers:{
-        'x-token': token
+        'x-token': this.token
       }
     }).pipe(
       //renovamos el token

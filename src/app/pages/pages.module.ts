@@ -8,7 +8,7 @@ import { PagesComponent } from './pages.component';
 import { ProgressComponent } from './progress/progress.component';
 import { SharedModule } from '../shared/shared.module';
 import { AppRoutingModule } from '../app-routing.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ComponentsModule } from '../components/components.module';
 import { BaseChartDirective } from 'ng2-charts';
 import { AccountSettingsComponent } from './account-settings/account-settings.component';
@@ -27,7 +27,7 @@ import { ProfileComponent } from './profile/profile.component';
     RxjsComponent,
     ProfileComponent,
   ],
-  imports: [CommonModule, AppRoutingModule, SharedModule, FormsModule, ComponentsModule, BaseChartDirective],
+  imports: [CommonModule, AppRoutingModule, SharedModule, FormsModule, ComponentsModule, BaseChartDirective, ReactiveFormsModule],
   exports: [
     DashboardComponent,
     ProgressComponent,
