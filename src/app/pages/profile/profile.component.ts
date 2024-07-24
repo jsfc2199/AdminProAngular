@@ -16,6 +16,8 @@ export class ProfileComponent {
 
   public usuario: User
   public imagenSubir!: File
+  imagenValida = false;
+  errorMessage: string | null = null;
 
   constructor(){
     this.usuario = this.usuarioService.usuario! //modificamos el usuario service directamente (la referencia) para modificar en todos los lugares nombre e email
@@ -42,8 +44,16 @@ export class ProfileComponent {
 
   cambiarImagen(event: any){
     const file: File = event.target.files[0]
+    const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
 
-    this.imagenSubir = file
+    if(allowedTypes.includes(file.type)){
+      this.errorMessage = null;
+      this.imagenValida = true;
+      this.imagenSubir = file
+    }else{
+      this.errorMessage = 'El archivo debe ser una imagen de tipo PNG, JPG, JPEG o GIF.';
+      this.imagenValida = false;
+    }
   }
 
   subirImagen(){
