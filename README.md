@@ -69,3 +69,25 @@ Esta sección tiene por objetivo implementar la seguridad de nuestra aplicación
 - LocalStorage para almacenar tokens
 - Protección básica de rutas
 - Logout
+
+## Perfil del usuario, pipes y subida de fotografía
+Esta sección se enfoca en varios temas relacionados al perfil del usuario:
+
+- Módulo de pipes 
+- Pipe para controlar la imagen a desplegar
+- Subida de imagen desde el Front-end hasta el Back-end
+- Crear el componente del perfil del usuario
+- Notificar actualización de imagen
+- Vista previa de la imagen seleccionada en tiempo real (sin subirla al backend)
+
+## Mantenimiento de usuarios y modal de carga de imágenes
+Esta sección tiene 2 objetivos generales, el primero es crear un mantenimiento de usuarios completo y el segundo, es crear un componente re utilizable que nos permita subir fácilmente imágenes de Hospitales, Usuarios y Médicos.
+
+Veremos sobre:
+
+- Crear componente de usuarios
+- Búsqueda de usuarios
+- Borrar usuario
+- Actualizar Rol del usuario
+- Crear un modal para la subida de la imagen
+- Emitir notificaciones de cambio en imágenes
