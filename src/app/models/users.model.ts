@@ -14,10 +14,11 @@ export class User {
   ) {}
 
   get imagenUrl(): string{
-    if(this.img?.includes('https')){
+    if(!this.img){
+      return `${baseUrl}/upload/usuarios/no-image`
+    }else if(this.img?.includes('https')){
       return this.img
-    }
-    if(this.img){
+    } else if(this.img){
       return `${baseUrl}/upload/usuarios/${this.img}`
     }
     return `${baseUrl}/upload/usuarios/no-image`
