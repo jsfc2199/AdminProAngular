@@ -22,7 +22,7 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">Usuarios</h4>
+        <h4 class="card-title">Total users: {{totalUsuarios}}</h4>
         <h6 class="card-subtitle">
          Usuarios registrados.
         </h6>
@@ -39,12 +39,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Lunar probe project</td>
-                <td>Lunar probe project</td>
-                <td>Lunar probe project</td>
-                <td>Lunar probe project</td>
-                <td>Lunar probe project</td>
+              <tr *ngFor="let usuario of usuarios">
+                <td>xxxxxx</td>
+                <td>{{usuario.email}}</td>
+                <td>{{usuario.nombre}}</td>
+                <td>{{usuario.role}}</td>
+                <td>
+                  <span *ngIf="usuario.google" class="label label-danger">Google</span>
+                  <span *ngIf="!usuario.google" class="label label-info">Email</span>
+
+                </td>
 
                 <td class="text-nowrap">
                   <a href="#" data-toggle="tooltip" data-original-title="Edit">
@@ -60,9 +64,9 @@
           </table>
 
           <div class="text-center">
-          <button class="btn btn-secondary">Siguientes</button>
-          &nbsp;
-          <button class="btn btn-secondary">Anteriores</button>
+            <button class="btn btn-secondary" (click)="cambiarPagina(-5)">Anteriores</button>
+            &nbsp;
+            <button class="btn btn-secondary" (click)="cambiarPagina(5)">Siguientes</button>
         </div>
         </div>
       </div>

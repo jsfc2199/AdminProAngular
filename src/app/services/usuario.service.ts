@@ -6,6 +6,7 @@ import { LoginForm } from '../auth/interfaces/login-form.interface';
 import { catchError, map, Observable, of, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { User } from '../models/users.model';
+import { CargarUsuario } from '../interface/cargar-usuarios.interface';
 
 const baseUrl = environments.base_url
 declare const google: any
@@ -106,5 +107,18 @@ export class UsuarioService {
 
     google.accounts.id.revoke(email, () =>{})
 
+  }
+
+  cargarUsuarios(desde:number = 0){
+    const url = `${baseUrl}/usuarios?desde=${desde}`
+    return this.http.get<CargarUsuario>(url, this.headers)
+  }
+
+  get headers(){
+    return {
+      headers:{
+        'x-token': this.token
+      }
+    }
   }
 }
