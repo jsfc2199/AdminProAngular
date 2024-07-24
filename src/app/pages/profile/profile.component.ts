@@ -16,6 +16,7 @@ export class ProfileComponent {
 
   public usuario: User
   public imagenSubir!: File
+  public imgTemp: string | ArrayBuffer | null = ''
   imagenValida = false;
   errorMessage: string | null = null;
 
@@ -46,10 +47,22 @@ export class ProfileComponent {
     const file: File = event.target.files[0]
     const allowedTypes = ['image/png', 'image/jpeg', 'image/jpg', 'image/gif'];
 
+    if(!file){
+      this.imgTemp = null
+      return
+    }
+
     if(allowedTypes.includes(file.type)){
+      this.imagenSubir = file
       this.errorMessage = null;
       this.imagenValida = true;
-      this.imagenSubir = file
+
+      const reader = new FileReader()
+
+      reader.onloadend = () => {
+        this.imgTemp = reader.result
+      }
+      reader.readAsDataURL(file);
     }else{
       this.errorMessage = 'El archivo debe ser una imagen de tipo PNG, JPG, JPEG o GIF.';
       this.imagenValida = false;
@@ -58,9 +71,7 @@ export class ProfileComponent {
 
   subirImagen(){
     this.fileUploadService.actualizarFoto(this.imagenSubir, 'usuarios', this.usuario.uuid!)
-    .then(resp => {
-      console.log(resp)
-    })
+    .then(img => this.usuario.img = img)
   }
 
 }
