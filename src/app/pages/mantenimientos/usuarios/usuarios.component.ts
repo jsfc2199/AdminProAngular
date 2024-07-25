@@ -2,7 +2,7 @@ import { Component, inject } from '@angular/core';
 import { UsuarioService } from '../../../services/usuario.service';
 import { User } from '../../../models/users.model';
 import { BusquedasService } from '../../../services/busquedas.service';
-import { debounceTime, Subject, switchMap } from 'rxjs';
+import { debounceTime, delay, pipe, Subject, Subscription, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 
@@ -23,10 +23,24 @@ export class UsuariosComponent {
   public desde: number = 0;
   public loading: boolean = false
 
+  public modalSubscription: Subscription = new Subscription()
+  public searchTermsSubscription: Subscription = new Subscription()
+  public usuariosServiceSubscription: Subscription = new Subscription()
+  public eliminarUsuarioSubscription: Subscription = new Subscription()
+  public guardarUsuarioSubscription: Subscription = new Subscription()
+
+
+
   ngOnInit(): void {
     this.cargarUsuarios();
 
-    this.searchTerms.pipe(
+    this.modalSubscription = this.modalService.nuevaImage
+    .pipe(
+      delay(100) //como la carga es muy rápida esperamos un poco para que el servidor que se pueda refrescar
+    )
+    .subscribe(img => this.cargarUsuarios())
+
+    this.searchTermsSubscription = this.searchTerms.pipe(
       debounceTime(300),
       switchMap((termino: string) => this.busquedaService.buscar('usuarios',termino))
     ).subscribe(resp => {
@@ -36,7 +50,7 @@ export class UsuariosComponent {
 
   cargarUsuarios() {
     this.loading = true
-    this.usuarioService
+    this.usuariosServiceSubscription = this.usuarioService
       .cargarUsuarios(this.desde)
       .subscribe(({ total, usuarios }) => {
         this.usuarios = usuarios;
@@ -80,7 +94,7 @@ export class UsuariosComponent {
       confirmButtonText: "Yes, delete it!"
     }).then((result) => {
       if (result.isConfirmed) {
-        this.usuarioService.eliminarUsuario(usuario)
+        this.eliminarUsuarioSubscription = this.usuarioService.eliminarUsuario(usuario)
         .subscribe(resp => {
           Swal.fire({
             title: "Deleted!",
@@ -96,11 +110,19 @@ export class UsuariosComponent {
   }
 
   cambiarRole(usuario: User){
-    this.usuarioService.guardarUsuario(usuario)
+    this.guardarUsuarioSubscription = this.usuarioService.guardarUsuario(usuario)
     .subscribe(resp => console.log(resp))
   }
 
   abrirModal(usuario: User){
     this.modalService.abrirModal('usuarios',usuario.uuid!, usuario.img)
+  }
+
+  ngOnDestroy(): void {
+    this.modalSubscription.unsubscribe()
+    this.searchTermsSubscription.unsubscribe()
+    this.usuariosServiceSubscription.unsubscribe()
+    this.eliminarUsuarioSubscription.unsubscribe()
+    this.guardarUsuarioSubscription.unsubscribe()
   }
 }

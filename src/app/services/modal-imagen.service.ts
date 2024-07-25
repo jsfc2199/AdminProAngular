@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { EventEmitter, Injectable } from '@angular/core';
 import { environments } from '../../environments/environment';
 const baseUrl = environments.base_url
 @Injectable({
@@ -8,9 +8,11 @@ export class ModalImagenService {
   
 
   private _ocultarModal: boolean = true;
-  tipo: string = ''
+  tipo!: 'usuarios'|'medicos'|'hospitales'
   id: string = ''  
   img?: string = ''
+
+  public nuevaImage: EventEmitter<string> = new EventEmitter()
   
   get ocultarModal(){
     return this._ocultarModal

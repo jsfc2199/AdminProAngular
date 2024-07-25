@@ -1,5 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ModalImagenService } from '../../services/modal-imagen.service';
+import { FileUploadService } from '../../services/file-upload.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-modal-imagen',
@@ -9,6 +11,7 @@ import { ModalImagenService } from '../../services/modal-imagen.service';
 export class ModalImagenComponent {
 
   public modalService = inject(ModalImagenService)
+  private fileUploadService = inject(FileUploadService)
 
   public imgTemp: string | ArrayBuffer | null = ''
   public imagenSubir!: File
@@ -44,5 +47,19 @@ export class ModalImagenComponent {
       this.errorMessage = 'El archivo debe ser una imagen de tipo PNG, JPG, JPEG o GIF.';
       this.imagenValida = false;
     }
+  }
+
+  subirImagen(){
+    const  id  = this.modalService.id
+    const  tipo  = this.modalService.tipo
+
+    this.fileUploadService.actualizarFoto(this.imagenSubir, tipo, id)
+    .then(img => {
+      Swal.fire('Saved','Picture saved', 'success');
+      this.modalService.nuevaImage.emit(img)
+      this.cerrarModal()
+    }).catch(err => {
+      Swal.fire('Error', 'Picture can not be uploaded', 'error')
+    })
   }
 }
