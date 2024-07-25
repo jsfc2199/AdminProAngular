@@ -8,7 +8,7 @@
   </div>
 </div>
 
-<div class="row animated fadeIn fast">
+<div class="row animated fadeIn fast" *ngIf="cargando">
   <div class="col-12">
     <div class="alert alert-info text-center" role="alert">
       <h4 class="alert-heading">Cargando</h4>
@@ -18,7 +18,7 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="!cargando">
   <div class="col-12">
     <div class="card">
       <div class="card-body">
@@ -36,14 +36,14 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>Img</td>
+              <tr *ngFor="let hospital of hospitales">
+                <td>{{hospital.img}}</td>
                 <td>
-                  <input type="text" class="form-control" placeholder="Nombre del Hospital">
+                  <input type="text" class="form-control" placeholder="Nombre del Hospital" [(ngModel)]="hospital.nombre">
                 </td>
 
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Edit">
+                  <a href="#" data-toggle="tooltip" data-original-title="Guardar">
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
                   <a href="#" data-toggle="tooltip" data-original-title="Delete">
@@ -54,12 +54,12 @@
 
             </tbody>
           </table>
-
+<!--
           <div class="text-center">
           <button class="btn btn-secondary">Siguientes</button>
           &nbsp;
           <button class="btn btn-secondary">Anteriores</button>
-        </div>
+        </div> -->
         </div>
       </div>
     </div>

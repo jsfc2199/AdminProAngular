@@ -1,17 +1,25 @@
 import { Component, inject } from '@angular/core';
 import { HospitalService } from '../../../services/hospital.service';
+import { Hospital } from '../../../models/hospital.model';
 
 @Component({
   selector: 'app-hospitales',
   templateUrl: './hospitales.component.html',
 })
 export class HospitalesComponent {
-  private hospitalService = inject(HospitalService)
+  private hospitalService = inject(HospitalService);
+  public hospitales: Hospital[] = [];
+  public cargando: boolean = true;
 
   ngOnInit(): void {
-    //Called after the constructor, initializing input properties, and the first call to ngOnChanges.
-    //Add 'implements OnInit' to the class.
-    this.hospitalService.cargarHospitales()
-    .subscribe(hospitales => console.log(hospitales))
+    this.cargarHospitales()
+  }
+
+  cargarHospitales() {
+    this.cargando = true;
+    this.hospitalService.cargarHospitales().subscribe((hospitales) => {
+      this.cargando = false;
+      this.hospitales = hospitales;
+    });
   }
 }
