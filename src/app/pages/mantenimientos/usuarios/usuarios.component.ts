@@ -15,6 +15,8 @@ export class UsuariosComponent {
 
   public totalUsuarios: number = 0;
   public usuarios: User[] = [];
+  public usuariosTemp: User[] = [];
+
   public desde: number = 0;
   public loading: boolean = false
 
@@ -35,6 +37,8 @@ export class UsuariosComponent {
       .cargarUsuarios(this.desde)
       .subscribe(({ total, usuarios }) => {
         this.usuarios = usuarios;
+        this.usuariosTemp = usuarios;
+
         this.totalUsuarios = total;
         this.loading = false
       });
@@ -51,7 +55,10 @@ export class UsuariosComponent {
   }
 
   search(termino: string){  
-    if(termino === '') return  
+    if(termino.length === 0) {
+      this.usuarios = this.usuariosTemp
+      return
+    }  
     this.searchTerms.next(termino)   
   }
 }
