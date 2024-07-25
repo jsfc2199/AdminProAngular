@@ -115,13 +115,19 @@ export class UsuarioService {
     .pipe(
       map(resp => {
         const usuarios = resp.usuarios
-          .map(user => new User(user.nombre, user.email, '', user.role, user.google, user.img, user.img))
+          .map(user => new User(user.nombre, user.email, '', user.role, user.google, user.img, user.uuid))
         return {
           total: resp.total,
           usuarios
         }
       })
     )
+  }
+
+  eliminarUsuario(usuario: User){
+    console.log(usuario)
+    const url = `${baseUrl}/usuarios/${usuario.uuid}`
+    return this.http.delete(url, this.headers)
   }
 
   get headers(){

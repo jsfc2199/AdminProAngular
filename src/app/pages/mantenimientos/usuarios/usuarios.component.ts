@@ -3,6 +3,7 @@ import { UsuarioService } from '../../../services/usuario.service';
 import { User } from '../../../models/users.model';
 import { BusquedasService } from '../../../services/busquedas.service';
 import { debounceTime, Subject, switchMap } from 'rxjs';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-usuarios',
@@ -60,5 +61,31 @@ export class UsuariosComponent {
       return
     }  
     this.searchTerms.next(termino)   
+  }
+
+  deleteUser(usuario: User){
+    Swal.fire({
+      title: "Are you sure?",
+      text: `You won't be able to revert this! User to delete ${usuario.nombre}`,
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!"
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.usuarioService.eliminarUsuario(usuario)
+        .subscribe(resp => {
+          Swal.fire({
+            title: "Deleted!",
+            text: "User has been deleted.",
+            icon: "success"
+          });
+          this.cargarUsuarios()
+        })
+       
+      }
+    });
+    
   }
 }
