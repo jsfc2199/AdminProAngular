@@ -5,6 +5,7 @@ import { BusquedasService } from '../../../services/busquedas.service';
 import { debounceTime, delay, pipe, Subject, Subscription, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
+import { Hospital } from '../../../models/hospital.model';
 
 @Component({
   selector: 'app-usuarios',
@@ -45,7 +46,7 @@ export class UsuariosComponent {
       debounceTime(300),
       switchMap((termino: string) => this.busquedaService.buscar('usuarios',termino))
     ).subscribe(resp => {
-      this.usuarios = resp
+      this.usuarios = resp as User[]
     })
   }
 

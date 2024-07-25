@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environments } from '../../environments/environment';
 import { map } from 'rxjs';
 import { User } from '../models/users.model';
+import { Hospital } from '../models/hospital.model';
 
 const baseUrl = environments.base_url
 @Injectable({
@@ -32,6 +33,8 @@ export class BusquedasService {
         switch(tipo){
           case 'usuarios':
             return this.transformarUsuarios(resp.data) //transformamos la data para ver la imagen de un usuario correctamente
+          case 'hospitales':            
+            return this.transformarHospital(resp.data)
           default:
             return []
         }
@@ -41,5 +44,9 @@ export class BusquedasService {
 
   private transformarUsuarios(resultados: any[]): User[]{
     return resultados.map(user => new User(user.nombre, user.email, '', user.role, user.google, user.img, user.img))
+  }
+
+  private transformarHospital(resultados: any[]): Hospital[]{
+    return resultados
   }
 }
