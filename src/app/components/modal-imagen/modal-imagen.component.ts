@@ -56,7 +56,7 @@ export class ModalImagenComponent {
     this.fileUploadService.actualizarFoto(this.imagenSubir, tipo, id)
     .then(img => {
       Swal.fire('Saved','Picture saved', 'success');
-      this.modalService.nuevaImage.emit(img)
+      this.modalService.nuevaImage.emit(img) //emitimos la imagen para capturarla desde el usuarios component
       this.cerrarModal()
     }).catch(err => {
       Swal.fire('Error', 'Picture can not be uploaded', 'error')

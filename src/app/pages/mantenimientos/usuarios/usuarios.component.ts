@@ -34,6 +34,7 @@ export class UsuariosComponent {
   ngOnInit(): void {
     this.cargarUsuarios();
 
+    //capturamos la imagen emitida por el modal
     this.modalSubscription = this.modalService.nuevaImage
     .pipe(
       delay(100) //como la carga es muy rápida esperamos un poco para que el servidor que se pueda refrescar
