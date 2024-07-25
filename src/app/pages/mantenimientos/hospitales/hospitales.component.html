@@ -23,7 +23,7 @@
     <div class="card">  
       <div class="card-body">
         <div class="text-right">
-          <button class="btn btn-primary">
+          <button class="btn btn-primary" (click)="abrirSweetAlert()">
             <i class="fa fa-hospital-o" aria-hidden="true"></i>Create Hospital
           </button>
         </div>
@@ -37,23 +37,27 @@
               <tr>
                 <th class="w100">Foto</th>
                 <th>Nombre</th>
-                <th class="text-nowrap">Action</th>
+                <th class="w100 text-nowrap">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr *ngFor="let hospital of hospitales">
                 <td class="text-center">
-                  <img [src]="hospital.img! | imagen:'hospitales'" [alt]="hospital.nombre" class="avatar cursor">
+                  <img [src]="hospital.img! | imagen:'hospitales'" 
+                  [alt]="hospital.nombre" 
+                  class="avatar cursor"
+                  (click)="abrirModal(hospital)"
+                  >
                 </td>
                 <td>
                   <input type="text" class="form-control" placeholder="Nombre del Hospital" [(ngModel)]="hospital.nombre">
                 </td>
 
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Guardar">
+                  <a (click)="guardarHospital(hospital)" class="cursor" data-toggle="tooltip" data-original-title="Guardar">
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
-                  <a href="#" data-toggle="tooltip" data-original-title="Delete">
+                  <a (click)="eliminarHospital(hospital)" class="cursor" data-toggle="tooltip" data-original-title="Delete">
                     <i class="fa fa-close text-danger"></i>
                   </a>
                 </td>
@@ -61,12 +65,6 @@
 
             </tbody>
           </table>
-<!--
-          <div class="text-center">
-          <button class="btn btn-secondary">Siguientes</button>
-          &nbsp;
-          <button class="btn btn-secondary">Anteriores</button>
-        </div> -->
         </div>
       </div>
     </div>
