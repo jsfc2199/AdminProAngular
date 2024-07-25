@@ -64,6 +64,10 @@ export class UsuariosComponent {
   }
 
   deleteUser(usuario: User){
+    if(usuario.uuid === this.usuarioService.uuid){
+      Swal.fire('Error', 'Can not delete yourself')
+      return 
+    }
     Swal.fire({
       title: "Are you sure?",
       text: `You won't be able to revert this! User to delete ${usuario.nombre}`,
