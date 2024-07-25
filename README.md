@@ -91,3 +91,20 @@ Veremos sobre:
 - Actualizar Rol del usuario
 - Crear un modal para la subida de la imagen
 - Emitir notificaciones de cambio en imágenes
+
+## Médicos y hospitales
+
+Esta sección tiene por objetivo poner a prueba todo lo aprendido hasta el momento
+
+Pero puntualmente, estos son los temas:
+
+- Explicación de la tarea
+- Documentos de la tarea
+- Detalles sobre el pipe de las imágenes
+- Resolución de la tarea
+- Componente de Médico y Médicos
+- Borrar médicos
+- Crear nuevo médico
+- Mostrar información en base a una selección de un hospital
+- Cargar médico
+- Actualizar registro de un médico
