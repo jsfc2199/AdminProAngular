@@ -101,6 +101,6 @@ export class UsuariosComponent {
   }
 
   abrirModal(usuario: User){
-    this.modalService.abrirModal()
+    this.modalService.abrirModal('usuarios',usuario.uuid!, usuario.img)
   }
 }

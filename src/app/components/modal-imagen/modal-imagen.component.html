@@ -23,12 +23,19 @@
         </div>
         <div class="modal-body">
           <h3>Seleccione una imagen</h3>
+          <div class="text-center">
+            <img *ngIf="!imgTemp" [src]="modalService.img" class="img-avatar">
+            <img *ngIf="imgTemp" [src]="imgTemp" class="img-avatar">
+          </div>
+          <input type="file" accept=".png, .jpg, .jpeg, .gif" (change)="cambiarImagen($event)">
+          <div *ngIf="errorMessage" class="error-message">{{ errorMessage }}</div>
+
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-default" data-dismiss="modal" (click)="cerrarModal()">
             Cancel
           </button>
-          <button type="button" class="btn btn-primary">Update Img</button>
+          <button [disabled]="!imagenSubir" type="button" class="btn btn-primary">Update Img</button>
         </div>
       </div>
     </div>
