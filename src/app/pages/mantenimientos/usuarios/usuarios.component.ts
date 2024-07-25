@@ -4,6 +4,7 @@ import { User } from '../../../models/users.model';
 import { BusquedasService } from '../../../services/busquedas.service';
 import { debounceTime, Subject, switchMap } from 'rxjs';
 import Swal from 'sweetalert2';
+import { ModalImagenService } from '../../../services/modal-imagen.service';
 
 @Component({
   selector: 'app-usuarios',
@@ -12,6 +13,7 @@ import Swal from 'sweetalert2';
 export class UsuariosComponent {
   private usuarioService: UsuarioService = inject(UsuarioService);
   private busquedaService: BusquedasService = inject(BusquedasService);
+  private modalService:ModalImagenService = inject(ModalImagenService)  
   private searchTerms = new Subject<string>();
 
   public totalUsuarios: number = 0;
@@ -96,5 +98,9 @@ export class UsuariosComponent {
   cambiarRole(usuario: User){
     this.usuarioService.guardarUsuario(usuario)
     .subscribe(resp => console.log(resp))
+  }
+
+  abrirModal(usuario: User){
+    this.modalService.abrirModal()
   }
 }
