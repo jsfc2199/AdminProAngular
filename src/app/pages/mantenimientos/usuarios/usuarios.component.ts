@@ -92,4 +92,9 @@ export class UsuariosComponent {
     });
     
   }
+
+  cambiarRole(usuario: User){
+    this.usuarioService.guardarUsuario(usuario)
+    .subscribe(resp => console.log(resp))
+  }
 }

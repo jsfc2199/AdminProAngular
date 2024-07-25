@@ -43,11 +43,7 @@ export class UsuarioService {
       ...data,
       role: this.usuario!.role
     }
-    return this.http.put(`${baseUrl}/usuarios/${this.uuid}`, data, {
-      headers:{
-        'x-token': this.token
-      }
-    })
+    return this.http.put(`${baseUrl}/usuarios/${this.uuid}`, data, this.headers)
   }
 
   login(formData: LoginForm){
@@ -128,6 +124,10 @@ export class UsuarioService {
     console.log(usuario)
     const url = `${baseUrl}/usuarios/${usuario.uuid}`
     return this.http.delete(url, this.headers)
+  }
+
+  guardarUsuario(usuario: User){
+    return this.http.put(`${baseUrl}/usuarios/${usuario.uuid}`, usuario, this.headers)
   }
 
   get headers(){
