@@ -5,7 +5,8 @@ import { Hospital } from '../../../models/hospital.model';
 import { MedicosService } from '../../../services/medicos.service';
 import { Medicos } from '../../../models/medicos.model';
 import Swal from 'sweetalert2';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-medico',
@@ -17,6 +18,7 @@ export class MedicoComponent {
   private hospitalService = inject(HospitalService)
   private medicoService = inject(MedicosService)
   private router = inject(Router)
+  private activatedRoute = inject(ActivatedRoute)
 
 
   public medicoForm: FormGroup
@@ -39,6 +41,18 @@ export class MedicoComponent {
     .subscribe(hospitalId => {
       this.hospitalSeleccionado = this.hospitales.find(hospital => hospital._id === hospitalId)!
     })
+
+    this.cargarMedico()
+   
+  }
+
+  cargarMedico(){
+    this.activatedRoute.params.pipe(
+      switchMap(({id})=> this.medicoService.getMedicoById(id))
+    ).subscribe(medico => {
+      this.medicoSeleccionado = medico
+    })
+    
   }
 
   cargarHospitales(){
@@ -46,6 +60,8 @@ export class MedicoComponent {
     .subscribe((hospitales: Hospital[])=> {
       this.hospitales = hospitales
     })
+
+    
   }
 
   guardarMedico(){ 
