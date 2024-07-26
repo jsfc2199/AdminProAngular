@@ -60,12 +60,12 @@
     </div>
   </div>
 
-  <div class="col-md-6">
+  <div class="col-md-6" *ngIf="hospitalSeleccionado">
     <div class="card">
       <div class="card-body">
         <h4 class="card-title">Hospital</h4>
-        <h6 class="card-subtitle">Hospital Asignado</h6>
-        <img class="w100" src="" alt="">
+        <h6 class="card-subtitle">{{hospitalSeleccionado.nombre}}</h6>
+        <img class="img-thumbnail" [src]="hospitalSeleccionado.img! | imagen:'hospitales'" alt="">
       </div>
     </div>
   </div>

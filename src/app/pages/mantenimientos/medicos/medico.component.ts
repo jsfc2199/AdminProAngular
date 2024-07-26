@@ -14,6 +14,7 @@ export class MedicoComponent {
 
   public medicoForm: FormGroup
   public hospitales: Hospital[]= []
+  public hospitalSeleccionado!: Hospital 
 
   constructor(){
     this.medicoForm = this.fb.group({
@@ -24,6 +25,12 @@ export class MedicoComponent {
 
   ngOnInit(): void {
     this.cargarHospitales()
+
+    //nos suscribimos al hospital para detectar los cambios cuando se seleccione otro hospital y obtener el id
+    this.medicoForm.get('hospital')?.valueChanges
+    .subscribe(hospitalId => {
+      this.hospitalSeleccionado = this.hospitales.find(hospital => hospital._id === hospitalId)!
+    })
   }
 
   cargarHospitales(){
