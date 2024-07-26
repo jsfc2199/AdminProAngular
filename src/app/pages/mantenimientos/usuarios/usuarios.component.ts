@@ -14,7 +14,7 @@ import { Hospital } from '../../../models/hospital.model';
 export class UsuariosComponent {
   private usuarioService: UsuarioService = inject(UsuarioService);
   private busquedaService: BusquedasService = inject(BusquedasService);
-  private modalService:ModalImagenService = inject(ModalImagenService)  
+  private modalService:ModalImagenService = inject(ModalImagenService)
   private searchTerms = new Subject<string>();
 
   public totalUsuarios: number = 0;
@@ -73,18 +73,18 @@ export class UsuariosComponent {
     this.cargarUsuarios();
   }
 
-  search(termino: string){  
+  search(termino: string){
     if(termino.length === 0) {
       this.usuarios = this.usuariosTemp
       return
-    }  
-    this.searchTerms.next(termino)   
+    }
+    this.searchTerms.next(termino)
   }
 
   deleteUser(usuario: User){
     if(usuario.uuid === this.usuarioService.uuid){
       Swal.fire('Error', 'Can not delete yourself')
-      return 
+      return
     }
     Swal.fire({
       title: "Are you sure?",
@@ -105,10 +105,10 @@ export class UsuariosComponent {
           });
           this.cargarUsuarios()
         })
-       
+
       }
     });
-    
+
   }
 
   cambiarRole(usuario: User){

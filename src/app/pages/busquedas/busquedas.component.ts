@@ -30,6 +30,6 @@ export class BusquedasComponent {
   }
 
   abrirMedico(medico: Medicos){
-    
+
   }
 }

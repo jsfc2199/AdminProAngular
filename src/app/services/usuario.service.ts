@@ -8,132 +8,156 @@ import { Router } from '@angular/router';
 import { User } from '../models/users.model';
 import { CargarUsuario } from '../interface/cargar-usuarios.interface';
 
-const baseUrl = environments.base_url
-declare const google: any
+const baseUrl = environments.base_url;
+declare const google: any;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UsuarioService {
+  private http: HttpClient = inject(HttpClient);
+  private router: Router = inject(Router);
 
-  private http: HttpClient = inject(HttpClient)
-  private router: Router = inject(Router)
+  public usuario?: User;
 
-  public usuario?: User
-
-  get token(){
-    return localStorage.getItem('token') ?? ''
+  get token() {
+    return localStorage.getItem('token') ?? '';
   }
 
-  get uuid(){
-    return this.usuario?.uuid ?? ''
+  get uuid() {
+    return this.usuario?.uuid ?? '';
   }
 
-  crearUsuario(formData: RegisterForm){
-    return this.http.post(`${baseUrl}/usuarios`, formData)
-    .pipe(
+  guardarLocalStorage(token: string, menu: any) {
+    const menuString = JSON.stringify(menu)
+    localStorage.setItem('token', token );
+    localStorage.setItem('menu', menuString);
+  }
+
+  crearUsuario(formData: RegisterForm) {
+    return this.http.post(`${baseUrl}/usuarios`, formData).pipe(
       tap((resp: any) => {
-        localStorage.setItem('token', resp.token)
+        this.guardarLocalStorage(resp.token, resp.menu);
       })
-    )
+    );
   }
 
-  actualizarPerfil(data: {email: string, nombre: string, role: string | undefined}){
+  actualizarPerfil(data: {
+    email: string;
+    nombre: string;
+    role: string | undefined;
+  }) {
     data = {
       ...data,
-      role: this.usuario!.role
-    }
-    return this.http.put(`${baseUrl}/usuarios/${this.uuid}`, data, this.headers)
+      role: this.usuario!.role,
+    };
+    return this.http.put(
+      `${baseUrl}/usuarios/${this.uuid}`,
+      data,
+      this.headers
+    );
   }
 
-  login(formData: LoginForm){
-    return this.http.post(`${baseUrl}/login`, formData)
-    .pipe(
+  login(formData: LoginForm) {
+    return this.http.post(`${baseUrl}/login`, formData).pipe(
       tap((resp: any) => {
-        localStorage.setItem('token', resp.token)
+        this.guardarLocalStorage(resp.token, resp.menu);
       })
-    )
+    );
   }
 
-  loginGoogle(token: string){
-    return this.http.post(`${baseUrl}/login/google`, {token})
-    .pipe(
+  loginGoogle(token: string) {
+    return this.http.post(`${baseUrl}/login/google`, { token }).pipe(
       tap((resp: any) => {
-        localStorage.setItem('email', resp.email)
-        localStorage.setItem('token', resp.token)
+        this.guardarLocalStorage(resp.token, resp.menu);
       })
-    )
+    );
   }
 
   //Con esto aprovechamos y actualizamos el token nuevamente
-  validarToken(): Observable<boolean>{
+  validarToken(): Observable<boolean> {
     // const token = localStorage.getItem('token') ?? ''
-    return this.http.get(`${baseUrl}/login/renew`, {
-      headers:{
-        'x-token': this.token
-      }
-    }).pipe(
-      //renovamos el token
-      //se remueve el tap porque puede ser que se resuelva el map primero que el tap, por lo que se maneja directamente en el map
-      map((resp: any) => {
-        //centralizamos la información del usuario
-        const {
-          email,
-          google,
-          img='',//por si el usuario no tiene imagen, no se rompa la app
-          nombre,
-          role,
-          uuid
-        } = resp.userDb
-        this.usuario = new User(nombre,email, '',role, google, img, uuid)
+    return this.http
+      .get(`${baseUrl}/login/renew`, {
+        headers: {
+          'x-token': this.token,
+        },
+      })
+      .pipe(
+        //renovamos el token
+        //se remueve el tap porque puede ser que se resuelva el map primero que el tap, por lo que se maneja directamente en el map
+        map((resp: any) => {
+          //centralizamos la información del usuario
+          const {
+            email,
+            google,
+            img = '', //por si el usuario no tiene imagen, no se rompa la app
+            nombre,
+            role,
+            uuid,
+          } = resp.userDb;
+          this.usuario = new User(nombre, email, '', role, google, img, uuid);
 
-        localStorage.setItem('token', resp.token)
-        return true
-      }),
-       //luego de renovar retornamos true para el guardian
-      catchError(error => of(false))
-    )
-
+          this.guardarLocalStorage(resp.token, resp.menu)
+          return true;
+        }),
+        //luego de renovar retornamos true para el guardian
+        catchError((error) => of(false))
+      );
   }
 
-  logout(){
-    const email = localStorage.getItem('email')
-    localStorage.removeItem('token')
-    localStorage.removeItem('email')
+  logout() {
+    const email = localStorage.getItem('email');
+    localStorage.removeItem('token');
+    localStorage.removeItem('email');
+    localStorage.removeItem('menu');
 
-    google.accounts.id.revoke(email, () =>{})
 
+    google.accounts.id.revoke(email, () => {});
   }
 
-  cargarUsuarios(desde:number = 0){
-    const url = `${baseUrl}/usuarios?desde=${desde}`
-    return this.http.get<CargarUsuario>(url, this.headers)
-    .pipe(
-      map(resp => {
-        const usuarios = resp.usuarios
-          .map(user => new User(user.nombre, user.email, '', user.role, user.google, user.img, user.uuid))
+  cargarUsuarios(desde: number = 0) {
+    const url = `${baseUrl}/usuarios?desde=${desde}`;
+    return this.http.get<CargarUsuario>(url, this.headers).pipe(
+      map((resp) => {
+        const usuarios = resp.usuarios.map(
+          (user) =>
+            new User(
+              user.nombre,
+              user.email,
+              '',
+              user.role,
+              user.google,
+              user.img,
+              user.uuid
+            )
+        );
         return {
           total: resp.total,
-          usuarios
-        }
+          usuarios,
+        };
       })
-    )
+    );
   }
 
-  eliminarUsuario(usuario: User){    
-    const url = `${baseUrl}/usuarios/${usuario.uuid}`
-    return this.http.delete(url, this.headers)
+  eliminarUsuario(usuario: User) {
+    const url = `${baseUrl}/usuarios/${usuario.uuid}`;
+    return this.http.delete(url, this.headers);
   }
 
-  guardarUsuario(usuario: User){
-    return this.http.put(`${baseUrl}/usuarios/${usuario.uuid}`, usuario, this.headers)
+  guardarUsuario(usuario: User) {
+    return this.http.put(
+      `${baseUrl}/usuarios/${usuario.uuid}`,
+      usuario,
+      this.headers
+    );
   }
 
-  get headers(){
+  get headers() {
     return {
-      headers:{
-        'x-token': this.token
-      }
-    }
+      headers: {
+        'x-token': this.token,
+      },
+    };
   }
 }
