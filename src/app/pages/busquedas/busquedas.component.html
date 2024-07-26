@@ -3,23 +3,22 @@
     <div class="card">
       <div class="card-body">
         <h3>Usuarios</h3>
-        <div class="alert alert-info" >
+        <div class="alert alert-info" *ngIf="usuarios.length === 0" >
           <p class="mb-0">No hay usuarios con ese término de búsqueda</p>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="usuarios.length !== 0">
           <table class="table">
               <thead>
                   <tr>
                       <th>Avatar</th>
-                      <th>Nombre</th>
+                      <th>nombre</th>
                   </tr>
               </thead>
-              <tbody>
-                  <tr>
-                      <td>1</td>
-                      <td>Deshmukh</td>
-                  </tr>
-
+              <tbody *ngFor="let usuario of usuarios">
+                <th >
+                  <img [ngStyle]="{'width': '75px'}" [src]="usuario.img! | imagen:'usuarios'" alt="no imagen">
+                </th>
+                <th>{{usuario.nombre}}</th>
               </tbody>
           </table>
       </div>
@@ -31,10 +30,10 @@
     <div class="card">
       <div class="card-body">
         <h3>Médicos</h3>
-        <div class="alert alert-info" >
+        <div class="alert alert-info" *ngIf="medicos.length === 0" >
           <p class="mb-0">No hay médicos con ese término de búsqueda</p>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="medicos.length !== 0">
           <table class="table">
               <thead>
                   <tr>
@@ -42,13 +41,18 @@
                       <th>Nombre</th>
                   </tr>
               </thead>
-              <tbody>
-                  <tr>
-                      <td>1</td>
-                      <td>Deshmukh</td>
-                  </tr>
+                <tbody *ngFor="let medico of medicos">
+                  <th >
+                    <img
+                    [ngStyle]="{'width': '75px'}"
+                    [src]="medico.img! | imagen:'medicos'"
+                    alt="no">
+                  </th>
+                  <th>
+                    <a [routerLink]="['/dashboard/medico', medico._id]">{{medico.nombre}}</a>
 
-              </tbody>
+                  </th>
+                </tbody>
           </table>
       </div>
       </div>
@@ -60,10 +64,10 @@
     <div class="card">
       <div class="card-body">
         <h3>Hospitales</h3>
-        <div class="alert alert-info" >
+        <div class="alert alert-info" *ngIf="medicos.length === 0">
           <p class="mb-0">No hay hospitales con ese término de búsqueda</p>
         </div>
-        <div class="table-responsive">
+        <div class="table-responsive" *ngIf="medicos.length !== 0">
           <table class="table">
               <thead>
                   <tr>
@@ -71,12 +75,11 @@
                       <th>Nombre</th>
                   </tr>
               </thead>
-              <tbody>
-                  <tr>
-                      <td>1</td>
-                      <td>Deshmukh</td>
-                  </tr>
-
+              <tbody *ngFor="let hospital of hospitales">
+                <th >
+                  <img [ngStyle]="{'width': '75px'}" [src]="hospital.img! | imagen:'hospitales'" alt="no imagen">
+                </th>
+                <th>{{hospital.nombre}}</th>
               </tbody>
           </table>
       </div>

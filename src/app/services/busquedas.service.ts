@@ -26,6 +26,11 @@ export class BusquedasService {
     }
   }
 
+  busquedaGlobal(termino: string){
+    const url = `${baseUrl}/todo/${termino}`
+    return this.http.get(url, this.headers)
+  }
+
   buscar(tipo: 'hospitales' |  'Medicos' | 'usuarios', termino: string){
     const url = `${baseUrl}/todo/collection/${tipo}/${termino}`
     return this.http.get<any[]>(url, this.headers)
@@ -34,9 +39,9 @@ export class BusquedasService {
         switch(tipo){
           case 'usuarios':
             return this.transformarUsuarios(resp.data) //transformamos la data para ver la imagen de un usuario correctamente
-          case 'hospitales':            
+          case 'hospitales':
             return this.transformarHospital(resp.data)
-          case 'Medicos':            
+          case 'Medicos':
             return this.transformarMedicos(resp.data)
           default:
             return []
