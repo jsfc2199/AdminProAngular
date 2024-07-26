@@ -6,25 +6,26 @@ import { User } from '../../models/users.model';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrl: './header.component.css'
+  styleUrl: './header.component.css',
 })
 export class HeaderComponent {
+  private usuarioService: UsuarioService = inject(UsuarioService);
+  public usuario!: User;
+  private router: Router = inject(Router);
 
-  private usuarioService: UsuarioService = inject(UsuarioService)
-  public usuario!: User
-  private router: Router = inject(Router)
-
-  constructor(){
-    this.usuario = this.usuarioService.usuario!
+  constructor() {
+    this.usuario = this.usuarioService.usuario!;
   }
 
-  logout(){
-    this.usuarioService.logout()
-    this.router.navigateByUrl('/login')
+  logout() {
+    this.usuarioService.logout();
+    this.router.navigateByUrl('/login');
   }
 
-  buscar(termino: string){
-    console.log(termino)
+  buscar(termino: string) {
+    if (termino.length === 0) {
+      this.router.navigateByUrl(`/dashboard`);
+    }
+    this.router.navigateByUrl(`/dashboard/buscar/${termino}`);
   }
-
 }
