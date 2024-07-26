@@ -6,7 +6,7 @@ import { MedicosService } from '../../../services/medicos.service';
 import { Medicos } from '../../../models/medicos.model';
 import Swal from 'sweetalert2';
 import { ActivatedRoute, Router } from '@angular/router';
-import { filter, switchMap } from 'rxjs';
+import { delay, filter, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-medico',
@@ -48,6 +48,7 @@ export class MedicoComponent {
     this.activatedRoute.params
       .pipe(
         filter(({ id }) => id !== 'nuevo'),
+        delay(100),
         switchMap(({ id }) => this.medicoService.getMedicoById(id))
       )
       .subscribe((medico) => {
