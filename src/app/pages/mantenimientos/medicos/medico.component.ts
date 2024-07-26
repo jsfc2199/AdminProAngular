@@ -2,6 +2,10 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HospitalService } from '../../../services/hospital.service';
 import { Hospital } from '../../../models/hospital.model';
+import { MedicosService } from '../../../services/medicos.service';
+import { Medicos } from '../../../models/medicos.model';
+import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-medico',
@@ -11,14 +15,18 @@ export class MedicoComponent {
 
   private fb = inject(FormBuilder)
   private hospitalService = inject(HospitalService)
+  private medicoService = inject(MedicosService)
+  private router = inject(Router)
+
 
   public medicoForm: FormGroup
   public hospitales: Hospital[]= []
   public hospitalSeleccionado!: Hospital 
+  public medicoSeleccionado!: Medicos 
 
   constructor(){
     this.medicoForm = this.fb.group({
-      nombre: ['Juan', [Validators.required]],
+      nombre: ['', [Validators.required]],
       hospital: ['', [Validators.required]]
     })
   }
@@ -40,7 +48,14 @@ export class MedicoComponent {
     })
   }
 
-  guardarMedico(){
-    console.log(this.medicoForm.value)
+  guardarMedico(){ 
+    const {nombre} = this.medicoForm.value
+    this.medicoService.crearMedico(this.medicoForm.value)
+    .subscribe((resp: any) => {    
+      Swal.fire('Creado', `${nombre} creado correctamente`, 'success')
+      this.router.navigateByUrl(`/dashboard/medico/${resp.medicoDb._id}`)
+    })
   }
+
+
 }
