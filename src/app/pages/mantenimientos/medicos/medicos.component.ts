@@ -4,6 +4,7 @@ import { Medicos } from '../../../models/medicos.model';
 import { ModalImagenService } from '../../../services/modal-imagen.service';
 import { debounceTime, delay, Subject, Subscription, switchMap } from 'rxjs';
 import { BusquedasService } from '../../../services/busquedas.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-medicos',
@@ -51,6 +52,14 @@ export class MedicosComponent {
       this.cargando = false
       this.medicosTemp = medicos
     });
+  }
+
+  eliminarMedico(medico: Medicos){
+    this.medicosService.eliminarMedicos(medico._id!)
+    .subscribe(() =>{ 
+      this.cargarMedicos()
+      Swal.fire('Eliminado', medico.nombre, 'success');
+    })
   }
 
   abrirModal(medico: Medicos){
