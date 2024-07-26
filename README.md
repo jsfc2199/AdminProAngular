@@ -108,3 +108,13 @@ Pero puntualmente, estos son los temas:
 - Mostrar información en base a una selección de un hospital
 - Cargar médico
 - Actualizar registro de un médico
+
+## Buscador global, servicios del menú y Admin Guard
+En esta sección tocaremos los siguientes temas:
+
+- Componente de búsqueda global
+- Menú del lado del servidor
+- AdminGuard - Un guard para verificar si es administrador
+- Recuperar información del TOKEN desde el front-end sin comunicación intermedia
+- Página 404
+- Manejo de errores
