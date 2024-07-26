@@ -118,3 +118,15 @@ En esta sección tocaremos los siguientes temas:
 - Recuperar información del TOKEN desde el front-end sin comunicación intermedia
 - Página 404
 - Manejo de errores
+
+## Optimizaciones, lazy load y despliegues
+
+Esta sección esta orientada a realizar optimizaciones en nuestra aplicación y back-end:
+
+- Lazy load
+- Función para renovar el token
+- Guard de renovación de token
+- Leer el token localmente sin comunicación con el servidor
+- Optimizar el tiempo de renovación de token
+- Resolver problema con las imágenes mal ubicadas en la versión de distribución
+- Crear la versión de distribución
