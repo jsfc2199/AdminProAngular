@@ -4,7 +4,7 @@
       <div class="card-body">
         <h4 class="card-title">Médico</h4>
         <h6 class="card-subtitle">Actualizar información</h6>
-        <form class="form p-t-20">
+        <form class="form p-t-20" [formGroup]="medicoForm" (ngSubmit)="guardarMedico()">
 
           <div class="form-group">
             <label for="exampleInputuname">Foto</label>
@@ -22,6 +22,7 @@
                 class="form-control"
                 id="exampleInputuname"
                 placeholder="Nombre del médico"
+                formControlName="nombre"
               />
             </div>
           </div>
@@ -29,16 +30,21 @@
             <label for="exampleInputEmail1">Hospital</label>
             <div class="input-group">
               <div class="input-group-addon"><i class="ti-email"></i></div>
-             <select class="form-control" id="">
-              <option value="">Hospital 1</option>
-              <option value="">Hospital 3</option>
-              <option value="">Hospital 2</option>
+             <select 
+              class="form-control"
+              formControlName="hospital"
+              id="">
+              <option value="">Seleccione un hospital</option>
+
+              <option *ngFor="let hospital of hospitales" [value]="hospital._id">{{hospital.nombre}}</option>
+              
              </select>
             </div>
           </div>
          
           <button
             type="submit"
+            [disabled]="medicoForm.invalid"
             class="btn btn-success waves-effect waves-light m-r-10"
           >
             Guardar cambios
