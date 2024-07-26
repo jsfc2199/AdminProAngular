@@ -5,12 +5,12 @@ import { Menu } from '../interface/menu.interface';
   providedIn: 'root',
 })
 export class SidebarService {
-  public menu = []
+  public menu:any[] = []
 
   cargarMenu(){
     this.menu = JSON.parse(localStorage.getItem('menu') || '') || [];
   }
-  
+
   // menu: Menu[] = [
   //   {
   //     titulo: 'Dashboard!!!',

@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 })
 export class SidebarComponent {
 
-  private sidebarService = inject(SidebarService)
+  public sidebarService = inject(SidebarService)
   private usuarioService: UsuarioService = inject(UsuarioService)
   private router: Router = inject(Router)
   public usuario!: User
@@ -20,7 +20,7 @@ export class SidebarComponent {
   menuItems: Menu[]= []
 
    constructor(){
-    this.menuItems = this.sidebarService.menu
+    // this.menuItems = this.sidebarService.menu
     this.usuario = this.usuarioService.usuario!
    }
 
