@@ -2,7 +2,7 @@
   <div class="col-12">
     <div class="card">
       <div class="car-body">
-        <input type="text" class="form-control" placeholder="Search medic..." />
+        <input type="text" class="form-control" placeholder="Search medic..." #txTermino (keyup)="searchMedic(txTermino.value)"/>
       </div>
     </div>
   </div>
@@ -22,6 +22,11 @@
   <div class="col-12">
     <div class="card">
       <div class="card-body">
+        <div class="text-right">
+          <a routerLink="/dashboard/medico/nuevo" class="btn btn-primary" >
+            <i class="fa fa-hospital-o" aria-hidden="true"></i>Create Médico
+          </a>
+        </div>
         <h4 class="card-title">Médicos</h4>
         <h6 class="card-subtitle">Médicos registrados.</h6>
         <div class="table-responsive">
@@ -46,7 +51,7 @@
                 <td>{{medico.nombre}}</td>
 
                 <td class="text-nowrap text-center">
-                  <a href="#" data-toggle="tooltip" data-original-title="Edit">
+                  <a [routerLink]="['/dashboard/medico', medico._id]" data-toggle="tooltip" data-original-title="Edit">
                     <i class="fa fa-pencil text-inverse m-r-10"></i>
                   </a>
                   <a
